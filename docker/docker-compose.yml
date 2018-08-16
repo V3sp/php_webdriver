@@ -1,0 +1,30 @@
+version: '2'
+services:
+  firefox:
+    image: selenium/node-firefox:3.14.0-arsenic
+    volumes:
+    - /dev/shm:/dev/shm
+    depends_on:
+    - hub
+    environment:
+      HUB_HOST: hub
+      SELENIUM_NODE_PARAMS: "-enablePassThrough false"
+
+  chrome:
+    image: selenium/node-chrome:3.14.0-arsenic
+    volumes:
+    - /dev/shm:/dev/shm
+    depends_on:
+    - hub
+    environment:
+      HUB_HOST: hub
+      DBUS_SESSION_BUS_ADDRESS: /dev/null
+      SELENIUM_NODE_PARAMS: "-enablePassThrough false"
+
+  hub:
+    image: selenium/hub:3.14.0-arsenic
+    ports:
+    - "4444:4444"
+    container_name: hub
+    environment:
+      SELENIUM_HUB_PARAMS: "-enablePassThrough false"
